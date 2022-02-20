@@ -2,6 +2,7 @@
 ## Database Fundamentals
 ### Group 11
 
+Click [here](https://dbdiagram.io/d/620a7ad685022f4ee58fbf98) to view our ERD.
 
 <details> 
 <summary>Idea</summary>
