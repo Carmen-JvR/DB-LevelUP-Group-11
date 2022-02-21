@@ -83,3 +83,27 @@ CREATE TABLE EmployeeDiet(
 );
 GO
 
+CREATE TABLE VendorHour(
+    VendorHourID int NOT NULL,
+    VendorID int NOT NULL,
+    OpenTime varchar,
+    CloseTime varchar,
+    WeekDayID int, 
+    CONSTRAINT PK_VendorHourID PRIMARY KEY(VendorHourID),
+); 
+GO
+
+CREATE TABLE VendorHour(
+    WeekDayID int NOT NULL,
+    Name varchar, 
+    CONSTRAINT PK_WeekDayID PRIMARY KEY(WeekDayID),
+); 
+GO
+
+CREATE TABLE DishDietaryRequirements(
+    DietaryRequirementsID int NOT NULL,
+    DishID  int NOT NULL,
+    CONSTRAINT FK_DietID FOREIGN KEY(DishID) REFERENCES DietType(DishID),
+    CONSTRAINT FK_DietaryRequirementsID FOREIGN KEY(DietaryRequirementsID) REFERENCES DietType(DietaryRequirementsID)
+);
+GO
