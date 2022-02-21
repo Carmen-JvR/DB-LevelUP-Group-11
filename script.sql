@@ -11,6 +11,7 @@ CREATE TABLE Office (
     OfficeID INT IDENTITY(1,1) NOT NULL,
     AddressID INT,
     PhoneNumber varchar(15),
+    CONSTRAINT PK_OfficeID PRIMARY KEY (OfficeID)
 );
 
 
@@ -20,13 +21,12 @@ CREATE TABLE Employee (
     FirstName varchar(255),
     LastName varchar(255),
     Email varchar(255),
+    CONSTRAINT PK_EmployeeID PRIMARY KEY (EmployeeID)
 );
 
 ALTER TABLE Employee 
-	ADD CONSTRAINT PK_EmpID PRIMARY KEY (EmployeeID),
-    CONSTRAINT FK_OfficeID FOREIGN KEY (OfficeID) REFERENCES Office(OfficeID)
+	ADD CONSTRAINT FK_OfficeID FOREIGN KEY (OfficeID) REFERENCES Office(OfficeID)
 
 
 ALTER TABLE Office
-	ADD CONSTRAINT PK_OfficeID PRIMARY KEY (OfficeID),
-    CONSTRAINT FK_AddressID FOREIGN KEY (AddressID) REFERENCES Address(AddressID)
+    ADD CONSTRAINT FK_AddressID FOREIGN KEY (AddressID) REFERENCES Address(AddressID)
