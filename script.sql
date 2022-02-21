@@ -55,3 +55,31 @@ ALTER TABLE Employee
 
 ALTER TABLE Office
     ADD CONSTRAINT FK_Office_Address_AddressID FOREIGN KEY (AddressID) REFERENCES Address(AddressID)
+
+
+CREATE TABLE DietType(
+	DietTypeID int IDENTITY(1,1) NOT NULL,
+	Name varchar(120) NULL,
+	CONSTRAINT PK_DietTypeID PRIMARY KEY(DietTypeID)
+);
+GO
+
+
+CREATE TABLE DietaryRequirements(
+    DietID int IDENTITY(1,1) NOT NULL,
+    DietTypeID int NOT NULL,
+	Name varchar(120) NULL,
+    Description varchar(1000) NULL,
+    CONSTRAINT PK_DietID PRIMARY KEY(DietID),
+    CONSTRAINT FK_DietTypeID FOREIGN KEY(DietTypeID) REFERENCES DietType(DietTypeID)
+);
+GO
+
+CREATE TABLE EmployeeDiet(
+	DietID int NOT NULL,
+	EmployeeID int NOT NULL,
+	CONSTRAINT FK_DietID FOREIGN KEY(DietID) REFERENCES DietaryRequirements(DietID),
+	CONSTRAINT FK_EmployeeID FOREIGN KEY(EmployeeID) REFERENCES Employee(EmployeeID)
+);
+GO
+
