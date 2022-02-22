@@ -9,7 +9,7 @@ GO
 CREATE TABLE Menu (
   MenuID int PRIMARY KEY NOT NULL,
   Title varchar(64) NULL,
-  Summary varchar(120) NULL,
+  Summary text NULL,
   CreatedAt date NULL,
   UpdatedAt date NULL
 )
@@ -18,7 +18,8 @@ GO
 CREATE TABLE Dish (
   DishID int PRIMARY KEY NOT NULL,
   MenuID int NOT NULL,
-  [Name] varchar(64)
+  [Name] varchar(60) NOT NULL UNIQUE
+  [Description] text NULL
 )
 GO
 
