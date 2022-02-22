@@ -10,8 +10,7 @@ CREATE TABLE Menu (
   MenuID int PRIMARY KEY NOT NULL,
   Title varchar(64) NULL,
   Summary text NULL,
-  CreatedAt date NULL,
-  UpdatedAt date NULL
+  CreatedAt date NULL
 )
 GO
 
