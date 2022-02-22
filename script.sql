@@ -7,18 +7,18 @@ USE OrderDB;
 GO
 
 CREATE TABLE Menu (
-  MenuID int PRIMARY KEY NOT NULL,
-  Title varchar(64) NULL,
-  Summary text NULL,
-  CreatedAt date NULL
+  MenuID INT  IDENTITY(1,1) NOT NULL PRIMARY KEY,
+  Title VARCHAR(64) NULL,
+  Summary TEXT NULL,
+  CreatedAt DATE NULL
 )
 GO
 
 CREATE TABLE Dish (
-  DishID int PRIMARY KEY NOT NULL,
-  MenuID int NOT NULL,
-  [Name] varchar(60) NOT NULL UNIQUE
-  [Description] text NULL
+  DishID INT  IDENTITY(1,1) NOT NULL PRIMARY KEY,
+  MenuID INT NOT NULL,
+  [Name] VARCHAR(60) NOT NULL
+  [Description] TEXT NULL
 )
 GO
 
