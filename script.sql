@@ -76,7 +76,7 @@ CREATE TABLE EmployeeDiet(
 GO
 
 CREATE TABLE DishDietaryRequirement(
-    DietaryRequirementID INT NOT NULL,
+    DietID INT NOT NULL,
     DishID  INT NOT NULL
 );
 GO
@@ -130,6 +130,6 @@ ALTER TABLE DietaryRequirement
 GO
 
 ALTER TABLE DishDietaryRequirement
-    ADD CONSTRAINT FK_DishDietaryRequirement_DietType_DishID FOREIGN KEY(DishID) REFERENCES DietType(DishID),
-        CONSTRAINT FK_DishDietaryRequirement_DietType_DietaryRequirementsID FOREIGN KEY(DietaryRequirementID) REFERENCES DietType(DietaryRequirementID)
+    ADD CONSTRAINT FK_DishDietaryRequirement_Dish_DishID FOREIGN KEY(DishID) REFERENCES Dish(DishID),
+        CONSTRAINT FK_DishDietaryRequirement_DietType_DietID FOREIGN KEY(DietID) REFERENCES DietaryRequirement(DietID)
 GO
