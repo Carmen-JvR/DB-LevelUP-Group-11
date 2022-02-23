@@ -1,11 +1,9 @@
-
-
-INSERT INTO Country(Name) VALUES
+INSERT INTO Country([Name]) VALUES
  ('South Africa')
 ,('United Kingdom')
 ,('India');
 
-INSERT INTO City(Name) VALUES
+INSERT INTO City([Name]) VALUES
  ('Johannesburg')
 ,('Cape Town')
 ,('London')
@@ -86,7 +84,7 @@ INSERT INTO Employee(OfficeID,FirstName,LastName,Email) VALUES
 
 
 
-INSERT INTO Vendor(OfficeID,AddressID,MenuID,Name,PhoneNumber,WebsiteAddress) VALUES
+INSERT INTO Vendor(OfficeID,AddressID,MenuID,[Name],PhoneNumber,WebsiteAddress) VALUES
  (2,5,1,'Mcdonalds','+27834742989','mcd.co.za')
 ,(1,6,1,'Mcdonalds','+27982981829','mcd.co.za')
 ,(1,7,2,'King Pie','+27927872980','kingpie.com')
@@ -118,37 +116,35 @@ INSERT INTO Vendor(OfficeID,AddressID,MenuID,Name,PhoneNumber,WebsiteAddress) VA
 
 
 
-INSERT INTO Menu(Title,Summary,CreatedAt,UpdatedAt) VALUES
- ('Mcdonalds South Africa','World''s largest restaurant chain serving burgers and fries','03/13/2019','01/06/2021')
-,('King Pie','Delivering world-class pies to royal fans','07/03/2017','07/21/2020')
-,('Nandos','PERi-PERi is the heart and soul of Nandos.','10/11/2018','03/30/2020')
-,('Spur','Legendary Steaks and all','01/01/2020','07/27/2020')
-,('Rocomamas','Best burgers in town','11/04/2017','09/12/2020')
-,('Romans','Two pizzas for the price of one','11/30/2019','08/29/2020')
-,('KFC South Africa','Kentucky fried chicken seasoned with 11 herbs and spices','05/17/2018','10/26/2020')
-,('Debonairs','Debonairs Pizza, the home of that iconic pizza','08/21/2018','11/07/2020')
-,('Wimpy','Still the breakfast leaders','11/27/2018','12/10/2020')
-,('Wendy''s','In no time, Wendy''s known for its square beef patties, made from fresh beef, and iconic Frosty desserts.','08/16/2019','04/09/2020')
-,('Papa Johns','Our pizza family is as hungry for perfection today as we were when we first began','07/03/2019','08/21/2020')
-,('Greggs','From sandwiches to pasties, pick a great deal for breakfast and lunch at your local Greggs today','05/22/2018','05/12/2020')
-,('Krispy Kreme','To use our unlimited passion and knowledge to create a fun filled magical experience, by serving craveable doughnuts and premium coffee at value for money and accessible to all..','03/20/2017','04/25/2020')
-,('SpudULike','SpudULike has been baking delicious potatoes since first opening its doors in 1974. Some might say it was ahead of its time, serving fast & filling food to the natio','05/10/2018','04/30/2020')
-,('Yo! Sushi','We''re all about fresh, flavoursome, authentic Japanese food. Sushi is what we''re known for. But we also have a mouth-watering range of hot street food available - from traditional classics to innovative fusion dishes. All packed with rich, aromatic flavours and all-natural ingredients','10/17/2019','05/08/2020')
-,('Wrapchic','The passion for Indian & Mexican food coupled with a desire to bring Indian food in a 21st century format.','09/30/2019','01/07/2021')
-,('Mcdonalds London','From drive-thru restaurants to Chicken McNuggets to college credits from Hamburger U, we have had quite a journey. And we are still going. But to take a look into our past, we need to share the story of one man.','05/29/2017','08/12/2020')
-,('Bagel Nash','Our bagels are created from unique recipes and are crafted with care to create bagels that are deliciously different. Bagel Nash bagels take 9 hours to perfect. Our bakers take time to create their recipes then leave our bagels to prove overnight. We then bake them slowly to give them their distinctive glossy outside and soft middle','06/25/2018','03/31/2020')
-,('KFC','Finally, the Colonel perfects his unique blend off 11 herbs and spices that are still used today... and still top secret','01/16/2019','12/12/2020')
-,('The Burger Barn Cafe','A great place to hangout with friends. Lots of variety of burgers, salads, chicken dishes and many more.','12/04/2019','08/05/2020')
-,('Terrasinne','International, farm-to-table specialties & desserts dished up in an airy, laid-back venue.','07/07/2017','11/02/2020')
-,('Hotel Sanskruti Misal','Hotel Sanskruti Misal in Pune is one of the leading businesses in the Coffee Shops.','11/05/2017','05/18/2020')
-,('Shree Krishna Pure Veg','Serves borth North Indian and SOuth indian vegetarian food','02/19/2019','04/03/2020')
-,('CHinjabi','North Indian,Chinese,Seafood,Thai,Desserts,Beverages','03/09/2017','08/10/2020')
-,('Burger king Pune','the original HOME OF THE WHOPPER, our commitment to premium ingredients, signature recipes, and family-friendly dining experiences is what has defined our brand for more than 50 successful years.','04/27/2017','08/25/2020');
-GO
+INSERT INTO Menu(Title,Summary,UpdatedAt) VALUES
+ ('Mcdonalds South Africa','World''s largest restaurant chain serving burgers and fries','01/06/2021')
+,('King Pie','Delivering world-class pies to royal fans','07/21/2020')
+,('Nandos','PERi-PERi is the heart and soul of Nandos.','03/30/2020')
+,('Spur','Legendary Steaks and all','07/27/2020')
+,('Rocomamas','Best burgers in town','09/12/2020')
+,('Romans','Two pizzas for the price of one','08/29/2020')
+,('KFC South Africa','Kentucky fried chicken seasoned with 11 herbs and spices','10/26/2020')
+,('Debonairs','Debonairs Pizza, the home of that iconic pizza','11/07/2020')
+,('Wimpy','Still the breakfast leaders','12/10/2020')
+,('Wendy''s','In no time, Wendy''s known for its square beef patties, made from fresh beef, and iconic Frosty desserts.','04/09/2020')
+,('Papa Johns','Our pizza family is as hungry for perfection today as we were when we first began','08/21/2020')
+,('Greggs','From sandwiches to pasties, pick a great deal for breakfast and lunch at your local Greggs today','05/12/2020')
+,('Krispy Kreme','To use our unlimited passion and knowledge to create a fun filled magical experience, by serving craveable doughnuts and premium coffee at value for money and accessible to all..','04/25/2020')
+,('SpudULike','SpudULike has been baking delicious potatoes since first opening its doors in 1974. Some might say it was ahead of its time, serving fast & filling food to the natio','04/30/2020')
+,('Yo! Sushi','We''re all about fresh, flavoursome, authentic Japanese food. Sushi is what we''re known for. But we also have a mouth-watering range of hot street food available - from traditional classics to innovative fusion dishes. All packed with rich, aromatic flavours and all-natural ingredients','05/08/2020')
+,('Wrapchic','The passion for Indian & Mexican food coupled with a desire to bring Indian food in a 21st century format.','01/07/2021')
+,('Mcdonalds London','From drive-thru restaurants to Chicken McNuggets to college credits from Hamburger U, we have had quite a journey. And we are still going. But to take a look into our past, we need to share the story of one man.','08/12/2020')
+,('Bagel Nash','Our bagels are created from unique recipes and are crafted with care to create bagels that are deliciously different. Bagel Nash bagels take 9 hours to perfect. Our bakers take time to create their recipes then leave our bagels to prove overnight. We then bake them slowly to give them their distinctive glossy outside and soft middle','03/31/2020')
+,('KFC','Finally, the Colonel perfects his unique blend off 11 herbs and spices that are still used today... and still top secret','12/12/2020')
+,('The Burger Barn Cafe','A great place to hangout with friends. Lots of variety of burgers, salads, chicken dishes and many more.','08/05/2020')
+,('Terrasinne','International, farm-to-table specialties & desserts dished up in an airy, laid-back venue.','11/02/2020')
+,('Hotel Sanskruti Misal','Hotel Sanskruti Misal in Pune is one of the leading businesses in the Coffee Shops.','05/18/2020')
+,('Shree Krishna Pure Veg','Serves borth North Indian and SOuth indian vegetarian food','04/03/2020')
+,('CHinjabi','North Indian,Chinese,Seafood,Thai,Desserts,Beverages','08/10/2020')
+,('Burger king Pune','the original HOME OF THE WHOPPER, our commitment to premium ingredients, signature recipes, and family-friendly dining experiences is what has defined our brand for more than 50 successful years.','08/25/2020');
 
 
-
-INSERT INTO Dish(MenuID,Name,Description) VALUES
+INSERT INTO Dish(MenuID,[Name],[Description]) VALUES
  (1,'Big Mac & Fries','Mouthwatering perfection starts with two 100% pure beef patties and special Big Mac sauce sandwiched between a sesame seed bun. Its topped with pickles, shredded lettuce, onions and cheese for a taste like no other, with a side of fries')
 ,(1,'Quarter Pounder, Fries & a Drink','Our Quarter Pounder with Cheese burger features a 100% beef patty, fresh onions, tangy pickles, ketchup, mustard and 2 slices of cheese on a freshly toasted sesame seed bun. Served with fries and a drink.')
 ,(2,'Spinach Pie','This is an authentic, really rich pie stuffed with spinach and herbs that are all enfolded by crispy, flaky phyllo dough.')
@@ -201,14 +197,14 @@ INSERT INTO Dish(MenuID,Name,Description) VALUES
 ,(25,'Vegan Royale','Made with the perfect blend of SOY and WHEAT protein and a perfect mix of spices, our plant-based patty is packed with flavour, texture and crunch. Top it with shredded lettuce and creamy vegan mayonnaise on a sesame seed bun and you have got the BK  Vegan Royale.');
 
 
-INSERT INTO DietType(Name) VALUES
+INSERT INTO DietType([Name]) VALUES
  ('Allergy')
 ,('Preference');
 
 
 
 
-INSERT INTO DietaryRequirement(DietTypeID,Name,Description) VALUES
+INSERT INTO DietaryRequirement(DietTypeID,[Name],[Description]) VALUES
  (1,'Gluten','Gluten is a combination of proteins that is most commonly found in wheat, barley, rye, and their familial grains. It commonly adds elasticity and a chewy texture to bread and wheat products, as well as aiding the rising process in baking.')
 ,(1,'Lactose Intolerant','An allergy to dairy products is an autoimmune response and can be fatal, while an intolerance is gastrointestinal reaction to the enzyme, lactose.')
 ,(2,'Vegetarian','A vegetarian is someone who does not eat meat but will eat foods made from animals. The moral reasoning is that it is OK to consume foods from an animal that do not result in the slaughter or mistreatment of that animal. Due to this reasoning, vegetarians will also generally consume only animal products that have been sourced ethically.')
