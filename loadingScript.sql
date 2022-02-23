@@ -1,3 +1,7 @@
+USE master;
+USE OrderDB;
+GO
+
 INSERT INTO Country([Name]) VALUES
  ('South Africa')
 ,('United Kingdom')
