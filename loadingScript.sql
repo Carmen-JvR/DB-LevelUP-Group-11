@@ -87,6 +87,34 @@ INSERT INTO Employee(OfficeID,FirstName,LastName,Email) VALUES
 ,(3,'Donald','Pham','donaldp@bbd.co.za');
 
 
+INSERT INTO Menu(Title,Summary,UpdatedAt) VALUES
+ ('Mcdonalds South Africa','World''s largest restaurant chain serving burgers and fries','01/06/2021')
+,('King Pie','Delivering world-class pies to royal fans','07/21/2020')
+,('Nandos','PERi-PERi is the heart and soul of Nandos.','03/30/2020')
+,('Spur','Legendary Steaks and all','07/27/2020')
+,('Rocomamas','Best burgers in town','09/12/2020')
+,('Romans','Two pizzas for the price of one','08/29/2020')
+,('KFC South Africa','Kentucky fried chicken seasoned with 11 herbs and spices','10/26/2020')
+,('Debonairs','Debonairs Pizza, the home of that iconic pizza','11/07/2020')
+,('Wimpy','Still the breakfast leaders','12/10/2020')
+,('Wendy''s','In no time, Wendy''s known for its square beef patties, made from fresh beef, and iconic Frosty desserts.','04/09/2020')
+,('Papa Johns','Our pizza family is as hungry for perfection today as we were when we first began','08/21/2020')
+,('Greggs','From sandwiches to pasties, pick a great deal for breakfast and lunch at your local Greggs today','05/12/2020')
+,('Krispy Kreme','To use our unlimited passion and knowledge to create a fun filled magical experience, by serving craveable doughnuts and premium coffee at value for money and accessible to all..','04/25/2020')
+,('SpudULike','SpudULike has been baking delicious potatoes since first opening its doors in 1974. Some might say it was ahead of its time, serving fast & filling food to the natio','04/30/2020')
+,('Yo! Sushi','We''re all about fresh, flavoursome, authentic Japanese food. Sushi is what we''re known for. But we also have a mouth-watering range of hot street food available - from traditional classics to innovative fusion dishes. All packed with rich, aromatic flavours and all-natural ingredients','05/08/2020')
+,('Wrapchic','The passion for Indian & Mexican food coupled with a desire to bring Indian food in a 21st century format.','01/07/2021')
+,('Mcdonalds London','From drive-thru restaurants to Chicken McNuggets to college credits from Hamburger U, we have had quite a journey. And we are still going. But to take a look into our past, we need to share the story of one man.','08/12/2020')
+,('Bagel Nash','Our bagels are created from unique recipes and are crafted with care to create bagels that are deliciously different. Bagel Nash bagels take 9 hours to perfect. Our bakers take time to create their recipes then leave our bagels to prove overnight. We then bake them slowly to give them their distinctive glossy outside and soft middle','03/31/2020')
+,('KFC','Finally, the Colonel perfects his unique blend off 11 herbs and spices that are still used today... and still top secret','12/12/2020')
+,('The Burger Barn Cafe','A great place to hangout with friends. Lots of variety of burgers, salads, chicken dishes and many more.','08/05/2020')
+,('Terrasinne','International, farm-to-table specialties & desserts dished up in an airy, laid-back venue.','11/02/2020')
+,('Hotel Sanskruti Misal','Hotel Sanskruti Misal in Pune is one of the leading businesses in the Coffee Shops.','05/18/2020')
+,('Shree Krishna Pure Veg','Serves borth North Indian and SOuth indian vegetarian food','04/03/2020')
+,('CHinjabi','North Indian,Chinese,Seafood,Thai,Desserts,Beverages','08/10/2020')
+,('Burger king Pune','the original HOME OF THE WHOPPER, our commitment to premium ingredients, signature recipes, and family-friendly dining experiences is what has defined our brand for more than 50 successful years.','08/25/2020');
+
+
 
 INSERT INTO Vendor(OfficeID,AddressID,MenuID,[Name],PhoneNumber,WebsiteAddress) VALUES
  (2,5,1,'Mcdonalds','+27834742989','mcd.co.za')
@@ -118,34 +146,6 @@ INSERT INTO Vendor(OfficeID,AddressID,MenuID,[Name],PhoneNumber,WebsiteAddress) 
 ,(4,31,24,'CHinjabi','+918328211982','chinjabi.com')
 ,(4,32,25,'Burger king','+919981891780','burgerking.co.ind');
 
-
-
-INSERT INTO Menu(Title,Summary,UpdatedAt) VALUES
- ('Mcdonalds South Africa','World''s largest restaurant chain serving burgers and fries','01/06/2021')
-,('King Pie','Delivering world-class pies to royal fans','07/21/2020')
-,('Nandos','PERi-PERi is the heart and soul of Nandos.','03/30/2020')
-,('Spur','Legendary Steaks and all','07/27/2020')
-,('Rocomamas','Best burgers in town','09/12/2020')
-,('Romans','Two pizzas for the price of one','08/29/2020')
-,('KFC South Africa','Kentucky fried chicken seasoned with 11 herbs and spices','10/26/2020')
-,('Debonairs','Debonairs Pizza, the home of that iconic pizza','11/07/2020')
-,('Wimpy','Still the breakfast leaders','12/10/2020')
-,('Wendy''s','In no time, Wendy''s known for its square beef patties, made from fresh beef, and iconic Frosty desserts.','04/09/2020')
-,('Papa Johns','Our pizza family is as hungry for perfection today as we were when we first began','08/21/2020')
-,('Greggs','From sandwiches to pasties, pick a great deal for breakfast and lunch at your local Greggs today','05/12/2020')
-,('Krispy Kreme','To use our unlimited passion and knowledge to create a fun filled magical experience, by serving craveable doughnuts and premium coffee at value for money and accessible to all..','04/25/2020')
-,('SpudULike','SpudULike has been baking delicious potatoes since first opening its doors in 1974. Some might say it was ahead of its time, serving fast & filling food to the natio','04/30/2020')
-,('Yo! Sushi','We''re all about fresh, flavoursome, authentic Japanese food. Sushi is what we''re known for. But we also have a mouth-watering range of hot street food available - from traditional classics to innovative fusion dishes. All packed with rich, aromatic flavours and all-natural ingredients','05/08/2020')
-,('Wrapchic','The passion for Indian & Mexican food coupled with a desire to bring Indian food in a 21st century format.','01/07/2021')
-,('Mcdonalds London','From drive-thru restaurants to Chicken McNuggets to college credits from Hamburger U, we have had quite a journey. And we are still going. But to take a look into our past, we need to share the story of one man.','08/12/2020')
-,('Bagel Nash','Our bagels are created from unique recipes and are crafted with care to create bagels that are deliciously different. Bagel Nash bagels take 9 hours to perfect. Our bakers take time to create their recipes then leave our bagels to prove overnight. We then bake them slowly to give them their distinctive glossy outside and soft middle','03/31/2020')
-,('KFC','Finally, the Colonel perfects his unique blend off 11 herbs and spices that are still used today... and still top secret','12/12/2020')
-,('The Burger Barn Cafe','A great place to hangout with friends. Lots of variety of burgers, salads, chicken dishes and many more.','08/05/2020')
-,('Terrasinne','International, farm-to-table specialties & desserts dished up in an airy, laid-back venue.','11/02/2020')
-,('Hotel Sanskruti Misal','Hotel Sanskruti Misal in Pune is one of the leading businesses in the Coffee Shops.','05/18/2020')
-,('Shree Krishna Pure Veg','Serves borth North Indian and SOuth indian vegetarian food','04/03/2020')
-,('CHinjabi','North Indian,Chinese,Seafood,Thai,Desserts,Beverages','08/10/2020')
-,('Burger king Pune','the original HOME OF THE WHOPPER, our commitment to premium ingredients, signature recipes, and family-friendly dining experiences is what has defined our brand for more than 50 successful years.','08/25/2020');
 
 
 INSERT INTO Dish(MenuID,[Name],[Description]) VALUES
@@ -204,8 +204,6 @@ INSERT INTO Dish(MenuID,[Name],[Description]) VALUES
 INSERT INTO DietType([Name]) VALUES
  ('Allergy')
 ,('Preference');
-
-
 
 
 INSERT INTO DietaryRequirement(DietTypeID,[Name],[Description]) VALUES
