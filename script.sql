@@ -193,16 +193,25 @@ CREATE PROCEDURE InsertIntoDishDietaryRequirement
 	@DishID INT,
 	@DietaryRequirementName VARCHAR(60)
 As
+DECLARE @diet_ID int;
 BEGIN
-	MERGE INTO DishDietaryRequirement A
-	USING ( VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID))
-	AS M(DietID, DishID)
-ON A.DietID = M.DietID AND  A.DishID = M.DishID
-	WHEN NOT MATCHED THEN
-		INSERT (DietID, DishID)
-		VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID);
+	SELECT @diet_ID = DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName);
+	if (@diet_ID is null)
+	BEGIN
+		RETURN @diet_ID
+	END
+	ELSE
+	BEGIN
+		MERGE INTO DishDietaryRequirement A
+		USING ( VALUES (@diet_ID, @DishID))
+		AS M(DietID, DishID)
+	ON A.DietID = M.DietID AND  A.DishID = M.DishID
+		WHEN NOT MATCHED THEN
+			INSERT (DietID, DishID)
+			VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID);
+			
+	END
 END
-GO
 
 
 CREATE PROCEDURE InsertNewAddress(@CountryID INT, @CityID INT, @StreetName VARCHAR(60), @StreetNumber VARCHAR(10) )
