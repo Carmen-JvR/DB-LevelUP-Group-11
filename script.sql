@@ -42,8 +42,8 @@ CREATE TABLE [Address](
 	AddressID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	CountryID INT NOT NULL,
 	CityID INT NOT NULL,
-	StreetName VARCHAR(60) NULL,
-	StreetNumber VARCHAR(10) NULL
+	StreetName VARCHAR(60) NOT NULL,
+	StreetNumber VARCHAR(10) NOT NULL
 );
 GO
 
@@ -74,13 +74,15 @@ GO
 
 CREATE TABLE EmployeeDiet(
 	DietID INT NOT NULL,
-	EmployeeID INT NOT NULL
+	EmployeeID INT NOT NULL,
+	PRIMARY KEY (DietID, EmployeeID)
 );
 GO
 
 CREATE TABLE DishDietaryRequirement(
     DietID INT NOT NULL,
-    DishID  INT NOT NULL
+    DishID  INT NOT NULL,
+	PRIMARY KEY (DietID, DishID)
 );
 GO
 
@@ -137,23 +139,7 @@ ALTER TABLE DishDietaryRequirement
         CONSTRAINT FK_DishDietaryRequirement_DietType_DietID FOREIGN KEY(DietID) REFERENCES DietaryRequirement(DietID)
 GO
 
---------------------------------------------------------------
---  Function Creation
---------------------------------------------------------------
 
-CREATE FUNCTION NumPeopleWithSpecificRequirement (@DietID INT, @OfficeID INT)
-RETURNS INT
-AS
-BEGIN
-    DECLARE @NumPeople INT
-
-    SELECT @NumPeople = COUNT(EmployeeID) 
-    FROM EmployeeDietView
-    WHERE DietID = @DietID AND OfficeID = @OfficeID 
-
-    RETURN @NumPeople
-END
-GO
 
 --------------------------------------------------------------
 --  View Creation
@@ -175,13 +161,51 @@ FROM Address a
     INNER JOIN City ci ON ci.CityID = a.CityID
 GO
 
-CREATE VIEW [EmployeeDietView] AS
+CREATE VIEW [EmployeeDietView]
+WITH SCHEMABINDING
+AS
 SELECT e.EmployeeID, e.OfficeID, CONCAT(e.FirstName , ' ' , e.LastName) AS DisplayName, dr.[Name] AS DietaryRequirementName, dr.DietID , dt.[Name] AS DietaryRequirementType
-FROM Employee e
-    INNER JOIN EmployeeDiet ed ON ed.EmployeeID = e.EmployeeID
-    INNER JOIN DietaryRequirement dr ON dr.DietID = ed.DietID
-    INNER JOIN DietType dt ON dt.DietTypeID = dr.DietTypeID
+FROM dbo.Employee e
+    INNER JOIN dbo.EmployeeDiet ed ON ed.EmployeeID = e.EmployeeID
+    INNER JOIN dbo.DietaryRequirement dr ON dr.DietID = ed.DietID
+    INNER JOIN dbo.DietType dt ON dt.DietTypeID = dr.DietTypeID
 GO
+
+
+--------------------------------------------------------------
+--  Index Creation
+--------------------------------------------------------------
+CREATE NONCLUSTERED INDEX IX_Employee_OfficeID
+ON Employee(OfficeID)
+GO
+
+CREATE UNIQUE CLUSTERED INDEX IX_EmployeeDietView_EmployeeID_DietID
+ON EmployeeDietView(EmployeeID, DietID)
+GO
+
+CREATE NONCLUSTERED INDEX IX_EmployeeDietView_OfficeID
+ON EmployeeDietView(OfficeID)
+GO
+
+
+--------------------------------------------------------------
+--  Function Creation
+--------------------------------------------------------------
+
+CREATE FUNCTION NumPeopleWithSpecificRequirement (@DietID INT, @OfficeID INT)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @NumPeople INT
+
+    SELECT @NumPeople = COUNT(EmployeeID) 
+    FROM EmployeeDietView
+    WHERE DietID = @DietID AND OfficeID = @OfficeID 
+
+    RETURN @NumPeople
+END
+GO
+
 
 --------------------------------------------------------------
 --  Procedure Creation
@@ -191,10 +215,10 @@ CREATE PROCEDURE InsertIntoDishDietaryRequirement
 	@DishID INT,
 	@DietaryRequirementName VARCHAR(60)
 As
-DECLARE @diet_ID int;
+DECLARE @diet_ID INT;
 BEGIN
-	SELECT @diet_ID = DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName);
-	if (@diet_ID is null)
+	SELECT @diet_ID = DietaryRequirement.DietID FROM DietaryRequirement WHERE LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName);
+	IF (@diet_ID is null)
 	BEGIN
 		RETURN @diet_ID
 	END
@@ -206,60 +230,122 @@ BEGIN
 	ON A.DietID = M.DietID AND  A.DishID = M.DishID
 		WHEN NOT MATCHED THEN
 			INSERT (DietID, DishID)
-			VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID);
+			VALUES ((SELECT DietaryRequirement.DietID FROM DietaryRequirement WHERE LOWER(DietaryRequirement.[Name]) = LOWER(@DietaryRequirementName)), @DishID);
 			
 	END
 END
 GO 
 
+CREATE PROCEDURE InsertIntoEmployeeDietaryRequirement
+	@EmployeeID INT,
+	@DietaryRequirementName VARCHAR(60)
+As
+DECLARE @diet_ID INT;
+BEGIN
+	BEGIN TRY
+		SELECT @diet_ID = DietaryRequirement.DietID FROM DietaryRequirement WHERE LOWER(DietaryRequirement.[Name]) = LOWER(@DietaryRequirementName);
+		IF (@diet_ID is null)
+		BEGIN
+			RETURN @diet_ID
+		END
+		ELSE
+		BEGIN
+			MERGE INTO DishDietaryRequirement A
+			USING ( VALUES (@diet_ID, @EmployeeID))
+			AS M(DietID, DishID)
+		ON A.DietID = M.DietID AND  A.DishID = M.DishID
+			WHEN NOT MATCHED THEN
+				INSERT (DietID, DishID)
+				VALUES ((SELECT DietaryRequirement.DietID FROM DietaryRequirement WHERE LOWER(DietaryRequirement.[Name]) = LOWER(@DietaryRequirementName)), @EmployeeID);
+		END
+	END TRY
+	BEGIN CATCH
+        SELECT 
+			ERROR_NUMBER() AS ErrorNumber, 
+            ERROR_SEVERITY() AS ErrorSeverity,  
+            ERROR_STATE() AS ErrorState,
+            ERROR_PROCEDURE() AS ErrorProcedure,  
+            ERROR_LINE() AS ErrorLine,
+            ERROR_MESSAGE() AS ErrorMessage;  
+    END CATCH
+END;
+GO
 
 
-CREATE PROCEDURE uspInsertIntoVendor
-@OfficeID  INT,
-@CountryID INT,
-@CityID INT,
-@StreetName VARCHAR(60),
-@StreetNumber VARCHAR(10),
-@MenuID INT,
-@Name VARCHAR(60),
-@PhoneNumber VARCHAR(15),
-@WebsiteAddress VARCHAR(15)
-AS BEGIN
-	DECLARE @addrID as INT
-	EXEC @addrID=InsertNewAddress @CountryID, @CityID, @StreetName,@StreetNumber
-	INSERT INTO Vendor (OfficeID,AddressID,MenuID,[Name],PhoneNumber,WebsiteAddress) VALUES
-	(@OfficeID,@addrID,@MenuID,@Name,@PhoneNumber,@WebsiteAddress);
+CREATE PROCEDURE InsertNewAddress
+	@CountryID INT, 
+	@CityID INT, 
+	@StreetName VARCHAR(60), 
+	@StreetNumber VARCHAR(10)
+AS
+BEGIN
+	DECLARE @newAddressId AS INT
+	INSERT INTO [Address] (CountryID, CityID, StreetName, StreetNumber) VALUES (@CountryID, @CityID,@StreetName, @StreetNumber );
+	SELECT @newAddressId = (SELECT SCOPE_IDENTITY())
+	RETURN @newAddressId
 END
-
 GO
-CREATE PROCEDURE InsertNewAddress(@CountryID INT, @CityID INT, @StreetName VARCHAR(60), @StreetNumber VARCHAR(10) )
+
+
+CREATE PROCEDURE InsertIntoVendor
+	@OfficeID  INT,
+	@CountryID INT,
+	@CityID INT,
+	@StreetName VARCHAR(60),
+	@StreetNumber VARCHAR(10),
+	@MenuID INT,
+	@Name VARCHAR(60),
+	@PhoneNumber VARCHAR(15),
+	@WebsiteAddress VARCHAR(15)
 AS 
-DECLARE @newAddressId AS INT
-INSERT INTO [Address] (CountryID, CityID, StreetName, StreetNumber) VALUES (@CountryID, @CityID,@StreetName, @StreetNumber );
-SELECT @newAddressId =   (SELECT SCOPE_IDENTITY())
-RETURN @newAddressId
+BEGIN
+	BEGIN TRY
+		DECLARE @addrID as INT
+		EXEC @addrID=InsertNewAddress @CountryID, @CityID, @StreetName,@StreetNumber
+		INSERT INTO Vendor (OfficeID,AddressID,MenuID,[Name],PhoneNumber,WebsiteAddress) VALUES
+		(@OfficeID,@addrID,@MenuID,@Name,@PhoneNumber,@WebsiteAddress);
+	END TRY
+	BEGIN CATCH
+		SELECT  
+            ERROR_NUMBER() AS ErrorNumber, 
+            ERROR_SEVERITY() AS ErrorSeverity,  
+            ERROR_STATE() AS ErrorState,
+            ERROR_PROCEDURE() AS ErrorProcedure,  
+            ERROR_LINE() AS ErrorLine,
+            ERROR_MESSAGE() AS ErrorMessage;
+	END CATCH
+END
 GO
 
-CREATE PROCEDURE uspInsertEmployee 
+
+CREATE PROCEDURE InsertIntoEmployee 
     @OfficeID   INT,
     @FirstName  VARCHAR(60) = NULL,
     @LastName   VARCHAR(60) = NULL,
     @Email      VARCHAR(60)
 AS
 BEGIN
-	SET NOCOUNT ON;
-
-    INSERT INTO Employee(
-        OfficeID,
-        FirstName,
-        LastName,
-        Email
-    )
-    Values
-    (@OfficeID
-    ,@FirstName
-    ,@LastName
-    ,@Email)
-
+	BEGIN TRY
+		INSERT INTO Employee(
+			OfficeID,
+			FirstName,
+			LastName,
+			Email
+		)
+		Values
+		(@OfficeID
+		,@FirstName
+		,@LastName
+		,@Email)
+	END TRY
+	BEGIN CATCH
+        SELECT  
+            ERROR_NUMBER() AS ErrorNumber, 
+            ERROR_SEVERITY() AS ErrorSeverity,  
+            ERROR_STATE() AS ErrorState,
+            ERROR_PROCEDURE() AS ErrorProcedure,  
+            ERROR_LINE() AS ErrorLine,
+            ERROR_MESSAGE() AS ErrorMessage;
+	END CATCH
 END
 GO
