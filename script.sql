@@ -185,3 +185,22 @@ FROM Employee e
     INNER JOIN DietaryRequirement dr ON dr.DietID = ed.DietID
     INNER JOIN DietType dt ON dt.DietTypeID = dr.DietTypeID
 GO
+
+--------------------------------------------------------------
+--  Procedure Creation
+--------------------------------------------------------------
+
+CREATE PROCEDURE InsertIntoDishDietaryRequirement
+	@DishID INT,
+	@DietaryRequirementName VARCHAR(50)
+As
+BEGIN
+	MERGE INTO DishDietaryRequirement A
+	USING ( VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID))
+	AS M(DietID, DishID)
+ON A.DietID = M.DietID AND  A.DishID = M.DishID
+	WHEN NOT MATCHED THEN
+		INSERT (DietID, DishID)
+		VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID);
+END
+GO
