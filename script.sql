@@ -133,3 +133,19 @@ ALTER TABLE DishDietaryRequirement
     ADD CONSTRAINT FK_DishDietaryRequirement_Dish_DishID FOREIGN KEY(DishID) REFERENCES Dish(DishID),
         CONSTRAINT FK_DishDietaryRequirement_DietType_DietID FOREIGN KEY(DietID) REFERENCES DietaryRequirement(DietID)
 GO
+
+
+CREATE FUNCTION NumPeopleWithSpecificRequirement (@DietID INT, @OfficeID INT)
+RETURNS INT
+AS
+BEGIN
+ 	DECLARE @NumPeople INT
+
+    SELECT @NumPeople = COUNT(Employee.EmployeeID) FROM Employee
+        INNER JOIN EmployeeDiet ON Employee.EmployeeID = EmployeeDiet.EmployeeID
+        INNER JOIN DietaryRequirement ON EmployeeDiet.DietID = DietaryRequirement.DietID
+        WHERE DietaryRequirement.DietID = @DietID
+        AND Employee.OfficeID = @OfficeID 
+    
+    RETURN @NumPeople
+END
