@@ -192,7 +192,7 @@ GO
 
 CREATE PROCEDURE InsertIntoDishDietaryRequirement
 	@DishID INT,
-	@DietaryRequirementName VARCHAR(50)
+	@DietaryRequirementName VARCHAR(60)
 As
 BEGIN
 	MERGE INTO DishDietaryRequirement A
