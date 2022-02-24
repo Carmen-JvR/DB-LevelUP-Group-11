@@ -138,10 +138,25 @@ ALTER TABLE DishDietaryRequirement
 GO
 
 
---------------------------------------------------------------
---  Procedure Creation
---------------------------------------------------------------
 
+--------------------------------------------------------------
+--  Function Creation
+--------------------------------------------------------------
+CREATE FUNCTION NumPeopleWithSpecificRequirement (@DietID INT, @OfficeID INT)
+RETURNS INT
+AS
+BEGIN
+ 	DECLARE @NumPeople INT
+
+    SELECT @NumPeople = COUNT(Employee.EmployeeID) FROM Employee
+        INNER JOIN EmployeeDiet ON Employee.EmployeeID = EmployeeDiet.EmployeeID
+        INNER JOIN DietaryRequirement ON EmployeeDiet.DietID = DietaryRequirement.DietID
+        WHERE DietaryRequirement.DietID = @DietID
+        AND Employee.OfficeID = @OfficeID 
+    
+    RETURN @NumPeople
+END
+GO
 
 --------------------------------------------------------------
 --  View Creation
