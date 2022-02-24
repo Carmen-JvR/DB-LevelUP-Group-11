@@ -225,7 +225,7 @@ AS BEGIN
 	(@OfficeID,@addrID,@MenuID,@Name,@PhoneNumber,@WebsiteAddress);
 END
 
-
+GO
 CREATE PROCEDURE InsertNewAddress(@CountryID INT, @CityID INT, @StreetName VARCHAR(60), @StreetNumber VARCHAR(10) )
 AS 
 DECLARE @newAddressId AS INT
