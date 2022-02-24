@@ -137,8 +137,6 @@ ALTER TABLE DishDietaryRequirement
         CONSTRAINT FK_DishDietaryRequirement_DietType_DietID FOREIGN KEY(DietID) REFERENCES DietaryRequirement(DietID)
 GO
 
-
-
 --------------------------------------------------------------
 --  Function Creation
 --------------------------------------------------------------
@@ -195,16 +193,26 @@ CREATE PROCEDURE InsertIntoDishDietaryRequirement
 	@DishID INT,
 	@DietaryRequirementName VARCHAR(60)
 As
+DECLARE @diet_ID int;
 BEGIN
-	MERGE INTO DishDietaryRequirement A
-	USING ( VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID))
-	AS M(DietID, DishID)
-ON A.DietID = M.DietID AND  A.DishID = M.DishID
-	WHEN NOT MATCHED THEN
-		INSERT (DietID, DishID)
-		VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID);
+	SELECT @diet_ID = DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName);
+	if (@diet_ID is null)
+	BEGIN
+		RETURN @diet_ID
+	END
+	ELSE
+	BEGIN
+		MERGE INTO DishDietaryRequirement A
+		USING ( VALUES (@diet_ID, @DishID))
+		AS M(DietID, DishID)
+	ON A.DietID = M.DietID AND  A.DishID = M.DishID
+		WHEN NOT MATCHED THEN
+			INSERT (DietID, DishID)
+			VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID);
+			
+	END
 END
-GO
+GO 
 
 
 
@@ -234,4 +242,26 @@ SELECT @newAddressId =   (SELECT SCOPE_IDENTITY())
 RETURN @newAddressId
 GO
 
+CREATE PROCEDURE uspInsertEmployee 
+    @OfficeID   INT,
+    @FirstName  VARCHAR(60) = NULL,
+    @LastName   VARCHAR(60) = NULL,
+    @Email      VARCHAR(60)
+AS
+BEGIN
+	SET NOCOUNT ON;
 
+    INSERT INTO Employee(
+        OfficeID,
+        FirstName,
+        LastName,
+        Email
+    )
+    Values
+    (@OfficeID
+    ,@FirstName
+    ,@LastName
+    ,@Email)
+
+END
+GO
