@@ -133,3 +133,27 @@ ALTER TABLE DishDietaryRequirement
     ADD CONSTRAINT FK_DishDietaryRequirement_Dish_DishID FOREIGN KEY(DishID) REFERENCES Dish(DishID),
         CONSTRAINT FK_DishDietaryRequirement_DietType_DietID FOREIGN KEY(DietID) REFERENCES DietaryRequirement(DietID)
 GO
+
+CREATE PROCEDURE uspInsertEmployee 
+    @OfficeID   INT,
+    @FirstName  VARCHAR(60) = NULL,
+    @LastName   VARCHAR(60) = NULL,
+    @Email      VARCHAR(60)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+    INSERT INTO Employee(
+        OfficeID,
+        FirstName,
+        LastName,
+        Email
+    )
+    Values
+    (@OfficeID
+    ,@FirstName
+    ,@LastName
+    ,@Email)
+
+END
+GO
