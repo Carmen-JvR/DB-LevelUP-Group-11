@@ -1,7 +1,7 @@
 USE [OrderDB]
 GO
 
-EXEC	uspInsertIntoVendor 
+EXEC	InsertIntoVendor 
 		@OfficeID = 1,
 		@CountryID=1,
         @CityID=1,

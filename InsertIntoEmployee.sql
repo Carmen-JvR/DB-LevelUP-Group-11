@@ -1,6 +1,6 @@
 USE [OrderDB]
 GO
-EXEC	uspInsertEmployee
+EXEC	InsertIntoEmployee
         @OfficeID=2,
         @FirstName=N'Barry',
         @LastName='Brown',
