@@ -145,14 +145,12 @@ CREATE FUNCTION NumPeopleWithSpecificRequirement (@DietID INT, @OfficeID INT)
 RETURNS INT
 AS
 BEGIN
- 	DECLARE @NumPeople INT
+    DECLARE @NumPeople INT
 
-    SELECT @NumPeople = COUNT(Employee.EmployeeID) FROM Employee
-        INNER JOIN EmployeeDiet ON Employee.EmployeeID = EmployeeDiet.EmployeeID
-        INNER JOIN DietaryRequirement ON EmployeeDiet.DietID = DietaryRequirement.DietID
-        WHERE DietaryRequirement.DietID = @DietID
-        AND Employee.OfficeID = @OfficeID 
-    
+    SELECT @NumPeople = COUNT(EmployeeID) 
+    FROM EmployeeDietView
+    WHERE DietID = @DietID AND OfficeID = @OfficeID 
+
     RETURN @NumPeople
 END
 GO
@@ -178,7 +176,7 @@ FROM Address a
 GO
 
 CREATE VIEW [EmployeeDietView] AS
-SELECT e.EmployeeID, e.OfficeID, (e.FirstName + ' ' + e.LastName) AS DisplayName, dr.[Name] AS DietaryRequirementName, dt.[Name] AS DietaryRequirementType
+SELECT e.EmployeeID, e.OfficeID, CONCAT(e.FirstName , ' ' , e.LastName) AS DisplayName, dr.[Name] AS DietaryRequirementName, dr.DietID , dt.[Name] AS DietaryRequirementType
 FROM Employee e
     INNER JOIN EmployeeDiet ed ON ed.EmployeeID = e.EmployeeID
     INNER JOIN DietaryRequirement dr ON dr.DietID = ed.DietID
