@@ -207,6 +207,25 @@ END
 GO
 
 
+
+CREATE PROCEDURE uspInsertIntoVendor
+@OfficeID  INT,
+@CountryID INT,
+@CityID INT,
+@StreetName VARCHAR(60),
+@StreetNumber VARCHAR(10),
+@MenuID INT,
+@Name VARCHAR(60),
+@PhoneNumber VARCHAR(15),
+@WebsiteAddress VARCHAR(15)
+AS BEGIN
+	DECLARE @addrID as INT
+	EXEC @addrID=InsertNewAddress @CountryID, @CityID, @StreetName,@StreetNumber
+	INSERT INTO Vendor (OfficeID,AddressID,MenuID,[Name],PhoneNumber,WebsiteAddress) VALUES
+	(@OfficeID,@addrID,@MenuID,@Name,@PhoneNumber,@WebsiteAddress);
+END
+
+
 CREATE PROCEDURE InsertNewAddress(@CountryID INT, @CityID INT, @StreetName VARCHAR(60), @StreetNumber VARCHAR(10) )
 AS 
 DECLARE @newAddressId AS INT
@@ -214,3 +233,5 @@ INSERT INTO [Address] (CountryID, CityID, StreetName, StreetNumber) VALUES (@Cou
 SELECT @newAddressId =   (SELECT SCOPE_IDENTITY())
 RETURN @newAddressId
 GO
+
+
