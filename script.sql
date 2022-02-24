@@ -137,8 +137,6 @@ ALTER TABLE DishDietaryRequirement
         CONSTRAINT FK_DishDietaryRequirement_DietType_DietID FOREIGN KEY(DietID) REFERENCES DietaryRequirement(DietID)
 GO
 
-
-
 --------------------------------------------------------------
 --  Function Creation
 --------------------------------------------------------------
@@ -213,4 +211,28 @@ DECLARE @newAddressId AS INT
 INSERT INTO [Address] (CountryID, CityID, StreetName, StreetNumber) VALUES (@CountryID, @CityID,@StreetName, @StreetNumber );
 SELECT @newAddressId =   (SELECT SCOPE_IDENTITY())
 RETURN @newAddressId
+GO
+
+CREATE PROCEDURE uspInsertEmployee 
+    @OfficeID   INT,
+    @FirstName  VARCHAR(60) = NULL,
+    @LastName   VARCHAR(60) = NULL,
+    @Email      VARCHAR(60)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+    INSERT INTO Employee(
+        OfficeID,
+        FirstName,
+        LastName,
+        Email
+    )
+    Values
+    (@OfficeID
+    ,@FirstName
+    ,@LastName
+    ,@Email)
+
+END
 GO
