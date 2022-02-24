@@ -212,6 +212,7 @@ BEGIN
 			
 	END
 END
+GO 
 
 
 CREATE PROCEDURE InsertNewAddress(@CountryID INT, @CityID INT, @StreetName VARCHAR(60), @StreetNumber VARCHAR(10) )
