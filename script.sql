@@ -149,3 +149,4 @@ BEGIN
     
     RETURN @NumPeople
 END
+GO
