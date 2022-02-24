@@ -142,6 +142,7 @@ GO
 --------------------------------------------------------------
 --  Function Creation
 --------------------------------------------------------------
+
 CREATE FUNCTION NumPeopleWithSpecificRequirement (@DietID INT, @OfficeID INT)
 RETURNS INT
 AS
@@ -203,4 +204,13 @@ ON A.DietID = M.DietID AND  A.DishID = M.DishID
 		INSERT (DietID, DishID)
 		VALUES ((SELECT DietaryRequirement.DietID from DietaryRequirement where LOWER(DietaryRequirement.Name) = LOWER(@DietaryRequirementName)), @DishID);
 END
+GO
+
+
+CREATE PROCEDURE InsertNewAddress(@CountryID INT, @CityID INT, @StreetName VARCHAR(60), @StreetNumber VARCHAR(10) )
+AS 
+DECLARE @newAddressId AS INT
+INSERT INTO [Address] (CountryID, CityID, StreetName, StreetNumber) VALUES (@CountryID, @CityID,@StreetName, @StreetNumber );
+SELECT @newAddressId =   (SELECT SCOPE_IDENTITY())
+RETURN @newAddressId
 GO
