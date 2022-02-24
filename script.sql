@@ -6,6 +6,9 @@ GO
 USE OrderDB;
 GO
 
+--------------------------------------------------------------
+--  Table Creation
+--------------------------------------------------------------
 
 CREATE TABLE Office (
     OfficeID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -132,4 +135,38 @@ GO
 ALTER TABLE DishDietaryRequirement
     ADD CONSTRAINT FK_DishDietaryRequirement_Dish_DishID FOREIGN KEY(DishID) REFERENCES Dish(DishID),
         CONSTRAINT FK_DishDietaryRequirement_DietType_DietID FOREIGN KEY(DietID) REFERENCES DietaryRequirement(DietID)
+GO
+
+
+--------------------------------------------------------------
+--  Procedure Creation
+--------------------------------------------------------------
+
+
+--------------------------------------------------------------
+--  View Creation
+--------------------------------------------------------------
+
+CREATE VIEW [VendorMenuView] AS
+SELECT v.VendorID, m.Title AS MenuTitle, d.[Name] AS DishName, d.[Description] AS DishDescription, dr.[Name] AS DietaryRequirementName
+FROM Vendor v 
+	INNER JOIN Menu m ON m.MenuID = v.menuID
+    INNER JOIN Dish d ON d.MenuID = m.MenuID
+    INNER JOIN DishDietaryRequirement ddr ON ddr.DishID = d.DishID
+    INNER JOIN DietaryRequirement dr ON dr.DietID = ddr.DietID
+GO
+
+CREATE VIEW [FullAddressView] AS
+SELECT a.AddressID, a.StreetName, a.StreetNumber, co.Name AS Country, ci.Name AS City
+FROM Address a 
+    INNER JOIN Country co ON co.CountryID = a.CountryID
+    INNER JOIN City ci ON ci.CityID = a.CityID
+GO
+
+CREATE VIEW [EmployeeDietView] AS
+SELECT e.EmployeeID, e.OfficeID, (e.FirstName + ' ' + e.LastName) AS DisplayName, dr.[Name] AS DietaryRequirementName, dt.[Name] AS DietaryRequirementType
+FROM Employee e
+    INNER JOIN EmployeeDiet ed ON ed.EmployeeID = e.EmployeeID
+    INNER JOIN DietaryRequirement dr ON dr.DietID = ed.DietID
+    INNER JOIN DietType dt ON dt.DietTypeID = dr.DietTypeID
 GO
